@@ -24,3 +24,9 @@ config.local.*
 # 飞书token缓存
 .feishu_token
 *.token
+
+# Node.js 依赖
+node_modules/
+
+# 表ID映射（运行后生成，不含敏感信息但无需提交）
+table-id-mapping.json

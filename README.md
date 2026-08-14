@@ -17,6 +17,7 @@
 ```
 nursing-home-ops/
 ├── SKILL.md                    # 技能定义文件（TRAE AI 技能）
+├── SETUP.md                    # 快速部署指南（从零搭建，2-3小时）
 ├── README.md                   # 项目说明
 ├── LICENSE                     # MIT 开源协议
 ├── .gitignore
@@ -29,23 +30,53 @@ nursing-home-ops/
 │   ├── dining.md               # 餐饮管理
 │   ├── activities.md           # 活动管理
 │   └── finance.md              # 财务管理
-└── templates/                  # 模板文件
-    ├── base-schema.md          # 飞书多维表格字段定义
-    └── weekly-report.md        # 家属周报模板
+├── templates/                  # 模板文件
+│   ├── base-schema.md          # 飞书多维表格字段定义
+│   ├── weekly-report.md        # 家属周报模板
+│   └── csv/                    # 可直接导入的 CSV 模板
+│       ├── 01-residents.csv    # 老人基本信息表
+│       ├── 02-care-records.csv # 护理记录表
+│       ├── 03-medication.csv   # 用药方案表
+│       ├── 04-scheduling.csv   # 排班表
+│       ├── 05-health-data.csv  # 健康数据表
+│       ├── 06-finance.csv      # 费用台账表
+│       ├── 07-activities.csv   # 活动记录表
+│       ├── 08-employees.csv    # 员工表
+│       └── 09-family-contacts.csv # 家属联系表
+└── scripts/                    # 自动化建表脚本
+    ├── create-tables.js        # 飞书 API 一键建表
+    ├── table-definitions.js    # 表格字段定义
+    ├── package.json
+    ├── .env.example            # 环境变量模板
+    └── README.md               # 脚本使用说明
 ```
 
 ## 快速开始
 
-### 前置条件
+详细步骤请参考 [SETUP.md](./SETUP.md)，以下是两种搭建方式：
 
-- 飞书企业版账号（或飞书个人版）
-- TRAE AI 助手（用于运行 skill）
+### 方式一：CSV 导入（推荐，无需编程）
 
-### 安装
+1. 在飞书中新建多维表格
+2. 依次导入 `templates/csv/` 下的 9 个 CSV 文件
+3. 按 SETUP.md 指南设置字段类型和关联关系
+4. 配置自动化规则
 
-1. 将 `SKILL.md` 复制到 `.trae/skills/nursing-home-ops/SKILL.md`
-2. 在 TRAE 中对 AI 说：「帮我搭建养老院的多维表格基础架构」
-3. AI 会根据 skill 中的指引，逐步帮你完成搭建
+### 方式二：API 自动建表（开发者，一键完成）
+
+```bash
+cd scripts
+npm install
+cp .env.example .env  # 填入飞书应用凭证
+npm start             # 自动创建所有表格和字段
+```
+
+### 安装 AI 技能
+
+将 `SKILL.md` 复制到 `.trae/skills/nursing-home-ops/SKILL.md`，之后可直接对 AI 说：
+- 「记录张奶奶今天血压 135/85，吃了降压药」
+- 「生成本周排班表」
+- 「发送张奶奶的家属周报」
 
 ### 推进路线
 
