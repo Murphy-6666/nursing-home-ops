@@ -33,19 +33,26 @@ nursing-home-ops/
 ├── templates/                  # 模板文件
 │   ├── base-schema.md          # 飞书多维表格字段定义
 │   ├── weekly-report.md        # 家属周报模板
-│   └── csv/                    # 可直接导入的 CSV 模板
-│       ├── 01-residents.csv    # 老人基本信息表
-│       ├── 02-care-records.csv # 护理记录表
-│       ├── 03-medication.csv   # 用药方案表
-│       ├── 04-scheduling.csv   # 排班表
-│       ├── 05-health-data.csv  # 健康数据表
-│       ├── 06-finance.csv      # 费用台账表
-│       ├── 07-activities.csv   # 活动记录表
-│       ├── 08-employees.csv    # 员工表
-│       └── 09-family-contacts.csv # 家属联系表
+│   └── csv/                    # 可直接导入的 CSV 模板（15张表）
+│       ├── 01-residents.csv        # 老人基本信息表
+│       ├── 02-care-records.csv     # 护理记录表
+│       ├── 03-medication.csv       # 用药方案表
+│       ├── 04-scheduling.csv       # 排班表
+│       ├── 05-health-data.csv      # 健康数据表
+│       ├── 06-finance.csv          # 费用台账表
+│       ├── 07-activities.csv       # 活动记录表
+│       ├── 08-employees.csv        # 员工表
+│       ├── 09-family-contacts.csv  # 家属联系表
+│       ├── 10-activity-plans.csv   # 活动方案表
+│       ├── 11-medication-records.csv # 服药记录表
+│       ├── 12-dining-menu.csv      # 餐饮菜单表
+│       ├── 13-dining-feedback.csv  # 餐饮反馈表
+│       ├── 14-medication-inventory.csv # 药品库存表
+│       └── 15-fee-standard.csv     # 收费标准表
 └── scripts/                    # 自动化建表脚本
-    ├── create-tables.js        # 飞书 API 一键建表
-    ├── table-definitions.js    # 表格字段定义
+    ├── create-tables.js        # 飞书 API 一键建表（15张表）
+    ├── table-definitions.js    # 全部表+字段+公式定义
+    ├── verify-setup.js         # 验证脚本（检查是否搭建正确）
     ├── package.json
     ├── .env.example            # 环境变量模板
     └── README.md               # 脚本使用说明
@@ -58,7 +65,7 @@ nursing-home-ops/
 ### 方式一：CSV 导入（推荐，无需编程）
 
 1. 在飞书中新建多维表格
-2. 依次导入 `templates/csv/` 下的 9 个 CSV 文件
+2. 依次导入 `templates/csv/` 下的 15 个 CSV 文件
 3. 按 SETUP.md 指南设置字段类型和关联关系
 4. 配置自动化规则
 
@@ -68,7 +75,8 @@ nursing-home-ops/
 cd scripts
 npm install
 cp .env.example .env  # 填入飞书应用凭证
-npm start             # 自动创建所有表格和字段
+npm start             # 自动创建 15 张表 + 所有字段 + 关联 + 公式
+npm run verify        # 验证是否全部创建成功
 ```
 
 ### 安装 AI 技能
