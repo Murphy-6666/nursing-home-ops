@@ -2,6 +2,9 @@
 
 > 基于 AI + 飞书生态的养老院数字化运营解决方案，覆盖护理记录、家属沟通、排班、用药、健康监测、餐饮、活动、财务八大场景。
 
+**不会编程？** 看 [30 分钟快速上手](./QUICK-START.md)。
+**会编程？** 往下看，三条命令搞定。
+
 ## 为什么需要这个项目
 
 养老院日常运营面临三大痛点：
@@ -17,7 +20,8 @@
 ```
 nursing-home-ops/
 ├── SKILL.md                    # 技能定义文件（TRAE AI 技能）
-├── SETUP.md                    # 快速部署指南（从零搭建，2-3小时）
+├── SETUP.md                    # 完整部署指南（含自动化配置详细步骤）
+├── QUICK-START.md              # 30分钟快速上手（不会编程看这个）
 ├── README.md                   # 项目说明
 ├── LICENSE                     # MIT 开源协议
 ├── .gitignore
@@ -31,7 +35,7 @@ nursing-home-ops/
 │   ├── activities.md           # 活动管理
 │   └── finance.md              # 财务管理
 ├── templates/                  # 模板文件
-│   ├── base-schema.md          # 飞书多维表格字段定义
+│   ├── base-schema.md          # 飞书多维表格字段定义（15张表完整版）
 │   ├── weekly-report.md        # 家属周报模板
 │   └── csv/                    # 可直接导入的 CSV 模板（15张表）
 │       ├── 01-residents.csv        # 老人基本信息表
@@ -53,6 +57,7 @@ nursing-home-ops/
     ├── create-tables.js        # 飞书 API 一键建表（15张表）
     ├── table-definitions.js    # 全部表+字段+公式定义
     ├── verify-setup.js         # 验证脚本（检查是否搭建正确）
+    ├── seed-demo-data.js       # 演示数据生成（6员工+5老人+7天记录）
     ├── package.json
     ├── .env.example            # 环境变量模板
     └── README.md               # 脚本使用说明
@@ -76,6 +81,7 @@ cd scripts
 npm install
 cp .env.example .env  # 填入飞书应用凭证
 npm start             # 自动创建 15 张表 + 所有字段 + 关联 + 公式
+npm run seed          # 写入演示数据（6名员工、5位老人、7天护理记录等）
 npm run verify        # 验证是否全部创建成功
 ```
 

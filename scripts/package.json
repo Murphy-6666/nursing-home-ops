@@ -1,10 +1,12 @@
 {
   "name": "nursing-home-feishu-setup",
-  "version": "1.0.0",
-  "description": "一键创建养老院飞书多维表格",
+  "version": "2.0.0",
+  "description": "一键创建养老院飞书多维表格（15张表）",
   "main": "create-tables.js",
   "scripts": {
-    "start": "node create-tables.js"
+    "start": "node create-tables.js",
+    "verify": "node verify-setup.js",
+    "seed": "node seed-demo-data.js"
   },
   "dependencies": {
     "dotenv": "^16.4.0"
