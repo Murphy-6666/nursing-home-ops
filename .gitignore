@@ -1,0 +1,26 @@
+# 临时文件
+*.tmp
+*.bak
+*.swp
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# 敏感数据（切勿上传真实老人信息）
+secrets/
+*.env
+credentials.json
+config.local.*
+
+# 飞书token缓存
+.feishu_token
+*.token
