@@ -1,13 +1,19 @@
 ---
 name: "nursing-home-ops"
-description: "Nursing home daily operations AI workflow toolkit covering care records, family notifications, scheduling, medication, health monitoring, dining, activities, and finance. Invoke when user needs to automate or digitize elderly care facility operations."
+description: "养老院日常运营 AI 工作流工具包，覆盖护理记录、家属通知、排班、用药、健康监测、餐饮、活动、财务八大场景。当用户需要数字化养老院运营、语音录入护理记录、自动推送家属、排班管理、用药提醒、健康预警、餐饮管理、活动管理、费用管理时触发。"
 ---
 
 # 养老院日常运营 AI 工作流
 
+## 使用前必读
+
+**使用本技能前，必须先读取 [templates/base-schema.md](templates/base-schema.md) 获取 15 张表的完整字段定义。**
+
+所有字段名以 base-schema.md 中的中文字段名为准（如"姓名""体温""收缩压"），不要使用英文字段名。
+
 ## 适用场景
 
-本技能适用于养老院、养护院、老年公寓、护理中心等 elderly care facility 的日常运营管理。当用户需要以下场景时触发：
+本技能适用于养老院、养护院、老年公寓、护理中心等机构的日常运营管理。当用户需要以下场景时触发：
 
 - 护理记录数字化与自动化归档
 - 家属状态通知与周报生成
@@ -32,23 +38,25 @@ description: "Nursing home daily operations AI workflow toolkit covering care re
 
 ## 工作流索引
 
+根据用户需求读取对应的工作流文件：
+
 ### 第一优先级：马上能做（无需额外设备）
 
-| 模块 | 文件 | 核心价值 |
-|------|------|----------|
-| 护理记录自动化 | [workflows/care-records.md](workflows/care-records.md) | 语音录入，效率翻倍 |
-| 家属沟通自动化 | [workflows/family-notify.md](workflows/family-notify.md) | 减少电话，家属安心 |
-| 排班管理 | [workflows/scheduling.md](workflows/scheduling.md) | 智能排班，冲突检测 |
-| 用药提醒 | [workflows/medication.md](workflows/medication.md) | 定时推送，杜绝漏服 |
+| 用户需求 | 读取文件 | 核心价值 |
+|---------|----------|----------|
+| 护理记录数字化、语音录入 | [workflows/care-records.md](workflows/care-records.md) | 语音录入，效率翻倍 |
+| 家属通知、减少电话、周报 | [workflows/family-notify.md](workflows/family-notify.md) | 减少电话，家属安心 |
+| 排班、换班、冲突检测 | [workflows/scheduling.md](workflows/scheduling.md) | 智能排班，冲突检测 |
+| 用药提醒、漏服跟踪 | [workflows/medication.md](workflows/medication.md) | 定时推送，杜绝漏服 |
 
 ### 第二优先级：配置后可用（1-2天搭建）
 
-| 模块 | 文件 | 核心价值 |
-|------|------|----------|
-| 健康档案与预警 | [workflows/health-archive.md](workflows/health-archive.md) | 数据驱动，提前干预 |
-| 餐饮管理 | [workflows/dining.md](workflows/dining.md) | 营养配餐，禁忌管理 |
-| 活动管理 | [workflows/activities.md](workflows/activities.md) | 方案生成，效果追踪 |
-| 财务管理 | [workflows/finance.md](workflows/finance.md) | 自动账单，收支报表 |
+| 用户需求 | 读取文件 | 核心价值 |
+|---------|----------|----------|
+| 健康档案、体征预警 | [workflows/health-archive.md](workflows/health-archive.md) | 数据驱动，提前干预 |
+| 餐饮、营养、禁忌管理 | [workflows/dining.md](workflows/dining.md) | 营养配餐，禁忌管理 |
+| 活动、文娱方案 | [workflows/activities.md](workflows/activities.md) | 方案生成，效果追踪 |
+| 费用、账单、财务报表 | [workflows/finance.md](workflows/finance.md) | 自动账单，收支报表 |
 
 ## 推进路线图
 
@@ -62,7 +70,7 @@ description: "Nursing home daily operations AI workflow toolkit covering care re
 
 ## 多维表格基础架构
 
-共 15 张表，字段定义见 [templates/base-schema.md](templates/base-schema.md)，CSV 模板见 `templates/csv/`：
+共 15 张表，**完整字段定义见 [templates/base-schema.md](templates/base-schema.md)**，CSV 模板见 `templates/csv/`：
 
 **基础表（先建）：** 老人基本信息表、员工表、活动方案表、收费标准表
 
@@ -77,28 +85,28 @@ description: "Nursing home daily operations AI workflow toolkit covering care re
 
 ## 使用示例
 
-### 示例1：语音录入护理记录
+### 示例1：语音录入护理记录（写入）
 
 用户：「帮我记录一下，张奶奶今天早上血压135/85，吃了降压药，精神状态不错，中午吃了半碗饭」
 
 AI 处理流程：
 1. 语音转文字
-2. 提取关键信息：老人姓名、时间、血压值、用药情况、饮食情况、精神状态
+2. 提取关键信息：老人姓名=张奶奶、记录时间=当前、收缩压=135、舒张压=85、用药情况=吃了降压药、饮食情况=半碗饭、精神状态=良好
 3. 写入飞书多维表格「护理记录表」
-4. 血压值与正常范围比对，无异常则静默入库
+4. 公式字段「异常标记」自动判断：135/85 在正常范围内，标记为"正常"
 5. 汇总到当日护理摘要，待晚推送家属
 
-### 示例2：生成家属周报
+### 示例2：生成家属周报（生成）
 
 用户：「帮我生成本周张奶奶的状态周报，发给家属」
 
 AI 处理流程：
-1. 从多维表格查询本周护理记录
+1. 从多维表格查询本周护理记录（筛选条件：老人姓名=张奶奶，记录日期=本周）
 2. 汇总饮食、睡眠、用药、活动、体征数据
 3. 生成结构化周报（使用 templates/weekly-report.md 模板）
 4. 通过飞书IM发送给家属
 
-### 示例3：用药提醒
+### 示例3：用药提醒（设置）
 
 用户：「设置李爷爷的用药提醒，降压药每天早上8点，降糖药每天三餐前」
 
@@ -108,6 +116,36 @@ AI 处理流程：
 3. 到点触发飞书IM消息推送给当班护理员
 4. 护理员确认服药后记录入库
 
+### 示例4：查询老人体征趋势（查询）
+
+用户：「查一下张奶奶这周的血压趋势」
+
+AI 处理流程：
+1. 从「护理记录表」中筛选：老人姓名=张奶奶，记录日期=本周
+2. 提取收缩压和舒张压数据，按时间排列
+3. 判断趋势（上升/下降/平稳），标注异常值
+4. 回复：「张奶奶本周血压记录如下：周一 135/85，周二 138/88，周三 130/82……整体平稳，无异常。」
+
+### 示例5：查询排班和漏服统计（查询）
+
+用户：「今天谁值夜班？」「这个月有多少人漏服药？」
+
+AI 处理流程：
+1. 查「排班表」筛选：日期=今天，班次=夜班，返回护理员姓名
+2. 查「服药记录表」筛选：服药状态=漏服，记录日期=本月，统计数量
+3. 回复：「今晚值夜班的是王姐和小李。本月漏服记录共 3 次，其中张奶奶 2 次（拒绝服药），李爷爷 1 次（护理员忘记确认）。」
+
+## 错误处理指引
+
+| 异常情况 | 处理方式 |
+|---------|----------|
+| 老人姓名在表中查不到 | 向用户确认是否新入住，确认后新建记录再继续操作 |
+| 体征数据明显不合理（如体温50℃） | 提示用户「体温50℃似乎异常，请确认是否录入错误」，不自动入库 |
+| 关联字段失败（如员工表没这个人） | 提示用户先在员工表添加该人员，再继续操作 |
+| 语音转文字识别错误 | 将识别结果展示给用户确认后再入库，不直接写入 |
+| 多维表格中没有对应的表 | 提示用户按 SETUP.md 创建对应表格后再操作 |
+| 公式字段报错 | 检查公式中引用的字段名是否与实际字段名完全一致（包括括号等特殊字符） |
+
 ## 注意事项
 
 1. **隐私保护**：老人健康数据属于个人隐私，多维表格需设置访问权限，仅授权人员可查看
@@ -115,3 +153,11 @@ AI 处理流程：
 3. **渐进推进**：不要一次性全部上线，按路线图分步实施，让护理团队逐步适应
 4. **培训先行**：每个模块上线前，对护理员进行15分钟操作培训
 5. **设备兼容**：确保老年护理员能简单上手，界面要大字、简洁
+6. **免责声明**：本系统为辅助管理工具，不替代医疗诊断和护理判断，所有健康数据仅供参考
+
+## 安装方式
+
+1. 将本文件（SKILL.md）复制到 `.trae/skills/nursing-home-ops/SKILL.md`
+2. 确保 `templates/base-schema.md` 在同级目录的 `templates/` 文件夹下
+3. 验证方式：对 AI 说「查一下今天谁值白班」，如果 AI 能理解并尝试查询排班表，说明技能已生效
+4. 完整部署（15张表+自动化）请参考 [SETUP.md](SETUP.md) 或 [QUICK-START.md](QUICK-START.md)
